@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalTrends - 日美热点新闻看板</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="glass-bg2"></div>
+
+    <div class="app-container">
+        <!-- Sidebar or Header Panel -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">⚡</span>
+                <div>
+                    <h1 class="logo-text">GlobalTrends</h1>
+                    <p class="logo-sub">日美双语热点新闻自动抓取看板</p>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <!-- Region Switcher -->
+                <div class="region-tabs" id="regionTabs">
+                    <button class="region-tab active" data-region="JP">
+                        <span class="flag">🇯🇵</span> 日本 News
+                    </button>
+                    <button class="region-tab" data-region="US">
+                        <span class="flag">🇺🇸</span> 美国 News
+                    </button>
+                </div>
+
+                <!-- Theme Toggler (Sun/Moon) -->
+                <button class="theme-toggle" id="themeToggle" title="切换主题">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="22" height="22">
+                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.01c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Utility Bar (Search & Manual Update) -->
+        <section class="utility-bar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="搜索标题或内容摘要...">
+            </div>
+            
+            <div class="status-info">
+                <span class="status-dot"></span>
+                <span id="statusText">每 30 分钟自动更新</span>
+                <button class="btn-refresh" id="refreshBtn" title="立即抓取最新热点">
+                    <svg class="refresh-icon" id="refreshIcon" viewBox="0 0 24 24" width="18" height="18">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/>
+                    </svg>
+                    <span>手动刷新</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Category Navbar -->
+        <nav class="category-nav" id="categoryNav">
+            <!-- Dynamically populated categories -->
+            <button class="category-btn active" data-category="all">全部热点</button>
+            <button class="category-btn" data-category="top">要闻</button>
+            <button class="category-btn" data-category="society">社会/国际</button>
+            <button class="category-btn" data-category="business">财经</button>
+            <button class="category-btn" data-category="technology">科技</button>
+            <button class="category-btn" data-category="sports">体育</button>
+            <button class="category-btn" data-category="entertainment">娱乐/文化</button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="news-main">
+            <!-- News Grid -->
+            <div class="news-grid" id="newsGrid">
+                <!-- Skeleton cards shown during loading -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state hidden" id="emptyState">
+                <div class="empty-icon">📂</div>
+                <h3>未找到匹配的新闻</h3>
+                <p>尝试更换关键词，或者点击“手动刷新”抓取最新内容。</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>© 2026 GlobalTrends News Aggregator. Powered by Python FastAPI & SQLite.</p>
+        </footer>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
