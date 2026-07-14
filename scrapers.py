@@ -70,15 +70,19 @@ def scrape_all_feeds() -> List[Dict[str, Any]]:
     all_items = []
     
     for region, categories in config.NEWS_FEEDS.items():
-        for category, feed_info in categories.items():
-            url = feed_info["url"]
-            source_name = feed_info["source"]
-                
-            try:
-                items = parse_rss_feed(url, region, category, source_name)
-                all_items.extend(items)
-            except Exception as e:
-                print(f"Error scraping {region} {category}: {e}", file=sys.stderr)
+        for category, feed_data in categories.items():
+            # Support both a single dict or a list of dicts
+            feeds = feed_data if isinstance(feed_data, list) else [feed_data]
+            
+            for feed_info in feeds:
+                url = feed_info["url"]
+                source_name = feed_info["source"]
+                    
+                try:
+                    items = parse_rss_feed(url, region, category, source_name)
+                    all_items.extend(items)
+                except Exception as e:
+                    print(f"Error scraping {region} {category} from {source_name}: {e}", file=sys.stderr)
                 
     return all_items
 
